@@ -15,5 +15,25 @@ module MURDER
         end
       end
     end
+
+    def male_players
+      self.players['m']
+    end
+
+    def female_players
+      self.players['f']
+    end
+
+    def total_players
+      self.players['f'] + self.players['m']
+    end
+
+    def friends
+      self.links['friends']
+    end
+
+    def enemies
+      self.links['enemies']
+    end
   end
 end
