@@ -47,7 +47,12 @@ module MURDER
         # Create characters directory if not there
         def mk_character_dir
           @dir = "#{@pwd}/characters"
-          Dir.mkdir @dir unless File.exists?(@dir)
+          unless File.exists?(@dir)
+            Dir.mkdir @dir
+          else
+            $stderr.puts "#{@pwd}/characters already exists!".red
+            exit 1
+          end
           puts "== Character directory #{@dir}"
         end
 
@@ -67,7 +72,6 @@ module MURDER
           @roles.each do |r,count|
             @role_return << Array.new(count, r)
           end
-          puts @role_return
           @role_return.flatten
         end
 
