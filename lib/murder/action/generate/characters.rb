@@ -58,12 +58,16 @@ module MURDER
 
         # Use given roles and fill in rest with 'player'
         def create_role_array
-          @add = @players - @roles.length
+          @roles_num = 0
+          @roles.each do |r,count|
+            @roles_num += count
+          end
+          @add = @players - @roles_num
           @role_return = Array.new(@add, 'player')
           @roles.each do |r,count|
-            binding.pry
             @role_return << Array.new(count, r)
           end
+          puts @role_return
           @role_return.flatten
         end
 
