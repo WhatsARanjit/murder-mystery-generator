@@ -12,7 +12,6 @@ module MURDER
           puts "YAML invalid: #{file_path}"
           raise "#{err}"
       end
-
     end
   end
 end
