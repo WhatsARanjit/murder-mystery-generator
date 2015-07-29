@@ -28,24 +28,10 @@ module MURDER
 
         def call
           puts "= Generating links for characters in \"#{@world.name}\""
-          @characters = mk_character_hash
+          @characters = @world.mk_character_hash
           make_all_enemies
           make_all_friends
           rewrite_profiles
-        end
-
-        def list_profiles
-          Dir["#{@pwd}/characters/*"].shuffle
-        end
-
-        def mk_character_hash
-          character_hash = {}
-          list_profiles.each do |profile|
-            profile_hash = yaml(profile)
-            id = profile_hash['id']
-            character_hash[id] = profile_hash
-          end
-          character_hash
         end
 
         ['enemies', 'friends'].each do |type|

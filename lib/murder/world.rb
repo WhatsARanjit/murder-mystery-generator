@@ -1,4 +1,5 @@
 require 'murder/util/yaml'
+require 'pry'
 
 module MURDER
   class World
@@ -34,6 +35,20 @@ module MURDER
 
     def enemies
       self.links['enemies']
+    end
+
+    def list_profiles
+      Dir["#{Dir.pwd}/characters/*"].shuffle
+    end 
+
+    def mk_character_hash
+      character_hash = {}
+      list_profiles.each do |profile|
+        profile_hash = yaml(profile)
+        id = profile_hash['id']
+        character_hash[id] = profile_hash
+      end
+      character_hash
     end
   end
 end
