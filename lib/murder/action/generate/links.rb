@@ -53,6 +53,10 @@ module MURDER
             # Do nothing if that person already has enough connections
             if @characters[personA][type].length < @world.links[type]
               @characters[personA][type] << personB
+              msg  = "#{@characters[personB]['name']} "
+              msg += "is #{type} with "
+              msg += "#{@characters[personA]['name']}"
+              puts msg
             end
             # Optional connection back
             #if @characters[personB][type].length < @world.links[type]
