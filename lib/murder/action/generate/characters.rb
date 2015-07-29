@@ -39,6 +39,7 @@ module MURDER
           @mf_array.each do |gender|
             char = MURDER::Character.new(i, gender, pick_role)
             char.write_profile
+            puts "Created Player_#{i}"
             i += 1
           end
         end

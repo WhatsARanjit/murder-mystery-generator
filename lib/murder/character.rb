@@ -41,7 +41,6 @@ module MURDER
 
     def write_profile
       write_yaml(character_hash, target_file)
-      puts target_file
     end
   end
 end
