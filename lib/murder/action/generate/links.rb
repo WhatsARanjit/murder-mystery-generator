@@ -30,6 +30,12 @@ module MURDER
           puts "= Generating links for characters in \"#{@world.name}\""
           @characters = @world.mk_character_hash
           make_all_enemies
+          # I'm seeing that because it proceeds by choosing
+          # the person with the least number of friends or
+          # enemies and the order of the list was constant,
+          # you actually always gets the same friends and
+          # enemies.  Shuffling to produce more randomness.
+          @characters.shuffle!
           make_all_friends
           rewrite_profiles
         end
@@ -44,20 +50,24 @@ module MURDER
               msg += "#{@characters[personA]['name']}"
               puts msg
             end
-            # Optional connection back
-            #if @characters[personB][type].length < @world.links[type]
-            #  @characters[personB][type] << personA
-            #end
+            if @characters[personB][type].length < @world.links[type]
+              @characters[personB][type] << personA
+            end
           end
 
           define_method "pick_#{type}" do |notme|
+            puts "== Finding enemy for user #{notme}"
             order = @characters.sort_by { |id, hash| hash[type].length }
             # Can't be your own enemy or friend.  Don't make
             # duplicates.  Don't be friends with your enemy
-            # and vice versa.
+            # and vice versa. Also, can't be enemies with someone
+            # who is already designated your friend.
+            notmeid = order.index { |id,hash| id == notme }
             i = 0
             until
             order[i][0] != notme and
+            ! order[notmeid][1]['enemies'].include?(order[i][0]) and
+            ! order[notmeid][1]['friends'].include?(order[i][0]) and
             ! order[i][1]['enemies'].include?(order[i][0]) and
             ! order[i][1]['friends'].include?(order[i][0]) do
               i += 1
@@ -66,12 +76,7 @@ module MURDER
           end
 
           define_method "make_all_#{type}" do
-            # I'm seeing that because it proceeds by choosing
-            # the person with the least number of friends or
-            # enemies and the order of the list was constant,
-            # you actually always gets the same friends and
-            # enemies.  Shuffling to produce more randomness.
-            @characters.shuffle!
+            @characters
             i = 0
             while i < @world.links[type]
               @characters.each do |id, hash|

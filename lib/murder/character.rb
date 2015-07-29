@@ -33,8 +33,9 @@ module MURDER
         'role'    => @role,
         'public'  => @public,
         'costume' => @costume,
-        'enemies' => @enemies,
-        'friends' => @friends,
+        # Prevent duplicate IDs
+        'enemies' => @enemies.uniq,
+        'friends' => @friends.uniq,
       }
     end
 
