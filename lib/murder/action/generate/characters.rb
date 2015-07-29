@@ -22,7 +22,6 @@ module MURDER
           @pwd      = Dir.pwd
           @config ||= "#{@pwd}/game.yaml"
           @world    = MURDER::World.new(@config)
-
         end
 
         def call
@@ -36,24 +35,24 @@ module MURDER
           mk_character_dir
 
           # Generate a character class for each person
-          @i = 1
+          i = 1
           @mf_array.each do |gender|
-            @char = MURDER::Character.new(@i, gender, pick_role)
-            @char.write_profile
-            @i += 1
+            char = MURDER::Character.new(i, gender, pick_role)
+            char.write_profile
+            i += 1
           end
         end
 
         # Create characters directory if not there
         def mk_character_dir
-          @dir = "#{@pwd}/characters"
-          unless File.exists?(@dir)
-            Dir.mkdir @dir
+          dir = "#{@pwd}/characters"
+          unless File.exists?(dir)
+            Dir.mkdir dir
           else
             $stderr.puts "#{@pwd}/characters already exists!".red
             exit 1
           end
-          puts "== Character directory #{@dir}"
+          puts "== Character directory #{dir}"
         end
 
         # Put together an array of Ms and Fs
@@ -63,23 +62,23 @@ module MURDER
 
         # Use given roles and fill in rest with 'player'
         def create_role_array
-          @roles_num = 0
+          roles_num = 0
           @roles.each do |r,count|
-            @roles_num += count
+            roles_num += count
           end
-          @add = @players - @roles_num
-          @role_return = Array.new(@add, 'player')
+          add = @players - roles_num
+          role_return = Array.new(add, 'player')
           @roles.each do |r,count|
-            @role_return << Array.new(count, r)
+            role_return << Array.new(count, r)
           end
-          @role_return.flatten
+          role_return.flatten
         end
 
         def pick_role
-          @rand = rand(@role_array.length)
-          @role = @role_array[@rand]
-          @role_array.delete_at(@rand)
-          @role
+          rand = rand(@role_array.length)
+          role = @role_array[rand]
+          @role_array.delete_at(rand)
+          role
         end
       end
     end

@@ -34,8 +34,21 @@ module MURDER::CLI
         end
       end
     end
+
+    module Links
+      def self.command
+        @cmd ||= Cri::Command.define do
+          name    'links'
+          usage   'links'
+          summary 'Generates friends and enemies for charaters'
+
+          runner MURDER::Action::Generate::Links
+        end
+      end
+    end
   end
 end
 
 MURDER::CLI.command.add_command(MURDER::CLI::Generate.command)
 MURDER::CLI::Generate.command.add_command(MURDER::CLI::Generate::Characters.command)
+MURDER::CLI::Generate.command.add_command(MURDER::CLI::Generate::Links.command)

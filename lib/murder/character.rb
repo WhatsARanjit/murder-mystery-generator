@@ -5,18 +5,33 @@ module MURDER
 
     include MURDER::Util::Yaml
 
-    def initialize(id, gender, role)
-      @id     = id
-      @gender = gender
-      @role   = role
+    def initialize(
+      id,
+      gender,
+      role,
+      name = "Player #{@id}",
+      costume = '',
+      enemies = [],
+      friends = []
+    )
+      @id      = id
+      @gender  = gender
+      @role    = role
+      @name    = name
+      @costume = costume
+      @enemies = enemies
+      @friends = friends
     end
 
     def character_hash
       {
-        'id'     => @id,
-        'name'   => "Player #{@id}",
-        'gender' => @gender,
-        'role'   => @role,
+        'id'      => @id,
+        'name'    => "Player #{@id}",
+        'gender'  => @gender,
+        'role'    => @role,
+        'costume' => @costume,
+        'enemies' => @enemies,
+        'friends' => @friends,
       }
     end
 
@@ -26,6 +41,7 @@ module MURDER
 
     def write_profile
       write_yaml(character_hash, target_file)
+      puts target_file
     end
   end
 end
