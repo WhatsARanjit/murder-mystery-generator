@@ -28,7 +28,7 @@ module MURDER
     def character_hash
       {
         'id'      => @id,
-        'name'    => "Player #{@id}",
+        'name'    => @name,
         'gender'  => @gender,
         'role'    => @role,
         'public'  => @public,
@@ -44,7 +44,9 @@ module MURDER
     end
 
     def write_profile
+      binding.pry
       write_yaml(character_hash, target_file)
+      puts target_file
     end
   end
 end

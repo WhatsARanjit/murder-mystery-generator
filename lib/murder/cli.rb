@@ -28,4 +28,5 @@ module MURDER::CLI
   end
 end
 
+require 'murder/cli/rename'
 require 'murder/cli/generate'
