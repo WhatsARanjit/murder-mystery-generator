@@ -9,10 +9,11 @@ module MURDER
       id,
       gender,
       role,
-      name = "Player #{@id}",
+      name    = "Player #{@id}",
       costume = '',
       enemies = [],
-      friends = []
+      friends = [],
+      info    = ''
     )
       @id      = id
       @gender  = gender
@@ -21,6 +22,7 @@ module MURDER
       @costume = costume
       @enemies = enemies
       @friends = friends
+      @public  = info
     end
 
     def character_hash
@@ -29,6 +31,7 @@ module MURDER
         'name'    => "Player #{@id}",
         'gender'  => @gender,
         'role'    => @role,
+        'public'  => @public,
         'costume' => @costume,
         'enemies' => @enemies,
         'friends' => @friends,

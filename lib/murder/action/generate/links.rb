@@ -92,7 +92,8 @@ module MURDER
               @characters[id]['name'],
               @characters[id]['costume'],
               @characters[id]['enemies'],
-              @characters[id]['friends']
+              @characters[id]['friends'],
+              @characters[id]['public']
             )
             char.write_profile
           end
