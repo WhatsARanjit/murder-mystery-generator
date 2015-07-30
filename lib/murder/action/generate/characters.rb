@@ -1,7 +1,6 @@
 require 'murder/util/setopts'
 require 'murder/world'
 require 'murder/character'
-require 'pry'
 
 module MURDER
   module Action

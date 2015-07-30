@@ -30,3 +30,4 @@ end
 
 require 'murder/cli/rename'
 require 'murder/cli/generate'
+require 'murder/cli/graph'

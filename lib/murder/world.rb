@@ -1,5 +1,4 @@
 require 'murder/util/yaml'
-require 'pry'
 
 module MURDER
   class World

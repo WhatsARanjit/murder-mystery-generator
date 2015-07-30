@@ -9,7 +9,7 @@ module MURDER
       id,
       gender,
       role,
-      name    = "Player #{@id}",
+      name    = "Player #{id}",
       costume = '',
       enemies = [],
       friends = [],
@@ -44,7 +44,6 @@ module MURDER
     end
 
     def write_profile
-      binding.pry
       write_yaml(character_hash, target_file)
       puts target_file
     end
