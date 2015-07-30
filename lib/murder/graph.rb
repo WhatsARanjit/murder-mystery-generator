@@ -5,9 +5,11 @@ module MURDER
 
     def initialize(
       character_hash,
+      roles = false,
       type = 'all'
       )
       @characters = character_hash
+      @roles      = roles
       @type       = type
       if type == 'all' 
         @lines    = [
@@ -75,7 +77,9 @@ module MURDER
     def edge_attrs(type)
       attr = { :label => type }
       case type
-      when 'friends'
+      when 'murder'
+        attr[:color] = 'red'
+      hen 'friends'
         attr[:color] = 'blue'
       when 'enemies'
         attr[:color] = 'purple'
@@ -88,6 +92,9 @@ module MURDER
       @characters.each do |id, hash|
         @lines.each do |type|
           hash[type].each do |player|
+            if @roles['murderer'].include?(id) and @roles['victim'].include?(player)
+              type = 'murder'
+            end
             target = cleanup_name( get_name_from_id(player) )
             @g.add_edges(
               cleanup_name(hash['name']),

@@ -1,4 +1,5 @@
 require 'murder/util/yaml'
+require 'pry'
 
 module MURDER
   class World
@@ -48,6 +49,12 @@ module MURDER
         character_hash[id] = profile_hash
       end
       character_hash
+    end
+
+    def role_lookup(role)
+      characters = mk_character_hash
+      m = characters.select { |id, hash| hash['role'] == role }
+      m.keys
     end
   end
 end

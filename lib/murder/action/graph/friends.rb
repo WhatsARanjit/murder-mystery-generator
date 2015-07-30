@@ -28,11 +28,20 @@ module MURDER
           puts "= Generating friends graph for \"#{@world.name}\""
 
           @characters = @world.mk_character_hash
-          g = MURDER::Graph.new(@characters)
+          g = MURDER::Graph.new(@characters, send_roles)
           g.graph_defaults
           g.add_nodes
           g.add_edges
           g.output_png
+        end
+
+        # Graph needs to know murderers/victims
+        def send_roles
+          s_roles = Hash.new
+          @world.roles.keys.each do |role|
+            s_roles[role] = @world.role_lookup(role)
+          end
+          s_roles
         end
       end
     end

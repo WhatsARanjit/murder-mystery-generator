@@ -75,7 +75,17 @@ module MURDER
           end
 
           define_method "make_all_#{type}" do
-            @characters
+            # First link is between murderer and victim
+            if type == 'enemies'
+              # Map one murder to one victim
+              murderers = @world.role_lookup('murderer')
+              victims   = @world.role_lookup('victim')
+              i = 0
+              murderers.each do |mid|
+                create_enemies(mid, victims[i])
+                i += 1
+              end
+            end
             i = 0
             while i < @world.links[type]
               @characters.each do |id, hash|
