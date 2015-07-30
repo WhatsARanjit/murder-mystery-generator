@@ -28,6 +28,7 @@ module MURDER
     def graph_defaults
       @g = GraphViz.new(
         :G,
+        :strict  => true,
         :type    => :digraph,
         :rankdir => 'LR'
       )
@@ -78,28 +79,60 @@ module MURDER
       attr = { :label => type }
       case type
       when 'murder'
-        attr[:color] = 'red'
-      hen 'friends'
-        attr[:color] = 'blue'
+        attr[:color]     = 'red'
+        attr[:fontcolor] = 'red'
+      when 'friends'
+        attr[:color]     = 'blue'
+        attr[:fontcolor] = 'blue'
       when 'enemies'
-        attr[:color] = 'purple'
+        attr[:color]     = 'purple'
+        attr[:fontcolor] = 'purple'
       else
       end
       attr
     end
 
     def add_edges
+      # Override type to 'murder' if roles are right:
+      im_dead    = Hash.new
+      ive_killed = Hash.new
+      @roles['victim'].each do |id|
+        @characters[id]['enemies'].each do |player|
+          # If this enemy is the murderer, it's murder
+          # and he gets a kill
+          if @roles['murderer'].include?(player)
+            _type              = 'murder'
+            ive_killed[player] = true
+
+            killer = cleanup_name( get_name_from_id(player) )
+            @g.add_edges(
+              killer,
+              cleanup_name(@characters[id]['name']),
+              edge_attrs(_type),
+            )
+          end
+        end
+      end
       @characters.each do |id, hash|
         @lines.each do |type|
           hash[type].each do |player|
-            if @roles['murderer'].include?(id) and @roles['victim'].include?(player)
-              type = 'murder'
+            if @roles['murderer'].include?(id) and
+              (
+                @roles['murderer'].include?(player) and
+                ! im_dead[player] and
+                ! ive_killed[id]
+              )
+              _type           = 'murder'
+              im_dead[player] = true
+              ive_killed[id]  = true
+            else
+              _type = type
             end
             target = cleanup_name( get_name_from_id(player) )
             @g.add_edges(
               cleanup_name(hash['name']),
               target,
-              edge_attrs(type),
+              edge_attrs(_type),
             )
           end
         end

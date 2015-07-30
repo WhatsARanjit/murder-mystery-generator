@@ -82,7 +82,13 @@ module MURDER
               victims   = @world.role_lookup('victim')
               i = 0
               murderers.each do |mid|
-                create_enemies(mid, victims[i])
+                # Be enemies with one of the victims
+                # Be enemies with another murderer if they exist
+                if victims[i]
+                  create_enemies(mid, victims[i])
+                elsif murderers[i-1]
+                  create_enemies(murderers[i-1], mid)
+                end
                 i += 1
               end
             end
