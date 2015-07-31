@@ -1,0 +1,21 @@
+---
+# Physical logistics
+name: Murder Mystery Dinner
+date: 7/18/2015
+time: 4:30PM
+address1: 123 Some Rd
+address2: false
+city: Elkton
+state: MD
+zipcode: '21921'
+
+# Player designations
+players:
+  m: 5
+  f: 5
+roles:
+  murderer: 2
+  victim: 1
+links:
+  friends: 1
+  enemies: 2
