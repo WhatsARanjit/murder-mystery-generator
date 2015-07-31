@@ -1,12 +1,10 @@
 require 'murder/util/setopts'
 require 'murder/world'
-require 'murder/graph'
-require 'pry'
 
 module MURDER
   module Action
-    module Graph
-      class Friends
+    module Player
+      class List
 
         include MURDER::Util::Setopts
 
@@ -25,23 +23,27 @@ module MURDER
         end
 
         def call
-          puts "= Generating friends graph for \"#{@world.name}\""
-
           @characters = @world.mk_character_hash
-          g = MURDER::Graph.new(@characters, send_roles)
-          g.graph_defaults
-          g.add_nodes
-          g.add_edges
-          g.output_png
+          #raise ArgumentError, 'Please supply 2 arguments' if @argv.length != 2
+
+          list_players
         end
 
-        # Graph needs to know murderers/victims
-        def send_roles
-          s_roles = Hash.new
-          @world.roles.keys.each do |role|
-            s_roles[role] = @world.role_lookup(role)
+        def list_players
+          pattern = "%-6s%-15s%-20s\n"
+          printf(pattern,
+            'ID',
+            'Role',
+            'Name'
+          )
+          puts '='*70
+          @characters.each do |id, hash|
+            printf(pattern,
+              id,
+              hash['role'],
+              hash['name']
+            )
           end
-          s_roles
         end
       end
     end

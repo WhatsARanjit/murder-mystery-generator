@@ -28,6 +28,6 @@ module MURDER::CLI
   end
 end
 
-require 'murder/cli/rename'
+require 'murder/cli/player'
 require 'murder/cli/generate'
 require 'murder/cli/graph'

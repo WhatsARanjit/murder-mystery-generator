@@ -140,7 +140,7 @@ module MURDER
     end
 
     def output_png
-      @g.output( :png => 'friends.png')
+      @g.output( :png => "#{@type}.png")
     end
   end
 end
