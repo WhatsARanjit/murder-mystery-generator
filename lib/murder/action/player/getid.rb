@@ -26,7 +26,7 @@ module MURDER
           @characters = @world.mk_character_hash
           raise ArgumentError, 'Please supply 1 argument' if @argv.length != 1
 
-          get_id(@argv[0])
+          puts get_id(@argv[0])
         end
 
         def get_id(name)
