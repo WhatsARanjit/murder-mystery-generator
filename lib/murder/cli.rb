@@ -1,5 +1,6 @@
 require 'murder-mystery-generator'
 require 'cri'
+require 'pry'
 
 module MURDER::CLI
   def self.command

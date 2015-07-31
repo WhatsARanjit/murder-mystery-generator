@@ -32,7 +32,7 @@ module MURDER
         puts "= Generating friends graph for \"#{@world.name}\""
 
         @characters = @world.mk_character_hash
-        g = MURDER::Graph.new(@characters, send_roles, @argv)
+        g = MURDER::Graph.new(@world, @characters, send_roles, @argv)
         g.graph_defaults
         g.add_nodes
         g.add_edges

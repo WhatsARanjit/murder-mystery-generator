@@ -1,5 +1,4 @@
 require 'murder/util/yaml'
-require 'pry'
 
 module MURDER
   class World
@@ -55,6 +54,16 @@ module MURDER
       characters = mk_character_hash
       m = characters.select { |id, hash| hash['role'] == role }
       m.keys
+    end
+
+    def get_name_from_id(qid)
+      self.mk_character_hash[qid]['name']
+    end
+
+    def get_id_from_name(name)
+      characters = mk_character_hash
+      m = characters.select { |id, hash| hash['name'] == name }
+      m.keys.first
     end
   end
 end

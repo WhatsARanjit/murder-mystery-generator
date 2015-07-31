@@ -4,10 +4,12 @@ module MURDER
   class Graph
 
     def initialize(
+      world,
       character_hash,
       roles = false,
       type = 'all'
       )
+      @world      = world
       @characters = character_hash
       @roles      = roles
       @type       = type
@@ -28,9 +30,11 @@ module MURDER
     def graph_defaults
       @g = GraphViz.new(
         :G,
-        :strict  => true,
-        :type    => :digraph,
-        :rankdir => 'LR'
+        :strict        => true,
+        :type          => :digraph,
+        :rankdir       => 'LR',
+        :label         => @world.name,
+        :labelloc      => 't',
       )
       @g.node[:shape]  = 'box'
       @g.node[:color]  = 'black'

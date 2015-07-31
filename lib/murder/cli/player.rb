@@ -32,8 +32,34 @@ module MURDER::CLI
         end
       end
     end
+
+    module Attr
+      def self.command
+        @cmd ||= Cri::Command.define do
+          name    'attr'
+          usage   'attr'
+          summary 'List one character\'s attributes'
+
+          runner MURDER::Action::Player::Attr
+        end
+      end
+    end
+
+    module Getid
+      def self.command
+        @cmd ||= Cri::Command.define do
+          name    'getid'
+          usage   'getid <player name>'
+          summary 'Get a player\'s ID from their name'
+
+          runner MURDER::Action::Player::Getid
+        end
+      end
+    end
   end
 end
 
 MURDER::CLI.command.add_command(MURDER::CLI::Player.command)
-MURDER::CLI::Generate.command.add_command(MURDER::CLI::Player::List.command)
+MURDER::CLI::Player.command.add_command(MURDER::CLI::Player::List.command)
+MURDER::CLI::Player.command.add_command(MURDER::CLI::Player::Attr.command)
+MURDER::CLI::Player.command.add_command(MURDER::CLI::Player::Getid.command)
