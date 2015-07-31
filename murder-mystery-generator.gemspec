@@ -10,9 +10,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Ranjit Viswakumar"]
   s.email       = 'whatsaranjit@gmail.com'
   s.homepage    = "https://github.com/WhatsARanjit/murder-mystery-generator"
-  s.files       = ["lib/hola.rb"]
   s.homepage    =
-    'http://rubygems.org/gems/hola'
+    'https://github.com/WhatsARanjit/murder-mystery-generator'
   s.license       = 'MIT'
   s.files        = %x[git ls-files].split($/)
   s.require_path = 'lib'
