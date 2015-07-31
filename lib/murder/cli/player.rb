@@ -8,7 +8,7 @@ module MURDER::CLI
       @cmd ||= Cri::Command.define do
         name    'player'
         usage   'player <subcommand> <arguments>'
-        summary 'Rename a player'
+        summary 'Set/get player attributes'
 
         description <<-DESCRIPTION
 `murder player` allows you to manipulate a existing players.

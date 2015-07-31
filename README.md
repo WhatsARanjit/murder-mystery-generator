@@ -12,7 +12,7 @@ DESCRIPTION
 COMMANDS
     generate     Generate a new game configuration
     graph        Create murder graphs
-    player       Rename a player
+    player       Set/get player attributes
 
 OPTIONS
     -h --help     Show help for this command
