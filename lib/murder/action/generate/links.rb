@@ -55,7 +55,7 @@ module MURDER
           end
 
           define_method "pick_#{type}" do |notme|
-            puts "== Finding enemy for user #{notme}"
+            #puts "== Finding enemy for user #{notme}"
             order = @characters.sort_by { |id, hash| hash[type].length }
             # Can't be your own enemy or friend.  Don't make
             # duplicates.  Don't be friends with your enemy

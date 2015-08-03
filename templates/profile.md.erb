@@ -1,0 +1,41 @@
+# <%= @name %>
+
+## Background
+
+<%= @public %>
+
+<% if @_friends -%>
+## Your Friends
+
+<% @_friends.each do |friend| -%>
+  * <%= friend %>
+<% end -%>
+
+<% end -%>
+<% if @_enemies -%>
+## Your Enemies
+
+<% @_enemies.each do |enemy| -%>
+  * <%= enemy %>
+<% end -%>
+
+<% end -%>
+<% if @secrets -%>
+## Confidential Information
+
+<% @secrets.each do |secret| -%>
+  * <%= secret %>
+<% end -%>
+
+<% end -%>
+<% if @super_secrets -%>
+## How It Goes Down (SUPER CONFIDENTIAL)
+
+<% @super_secrets.each do |secret| -%>
+  * <%= secret %>
+<% end -%>
+
+<% end -%>
+## Costume Suggestions
+
+<%= @costume -%>
