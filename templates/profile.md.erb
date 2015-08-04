@@ -16,7 +16,9 @@
 ## Your Enemies
 
 <% @_enemies.each do |enemy| -%>
+<% if enemy != @_murder -%>
   * <%= enemy %>
+<% end -%>
 <% end -%>
 
 <% end -%>
@@ -31,6 +33,12 @@
 <% if @super_secrets -%>
 ## How It Goes Down (SUPER CONFIDENTIAL)
 
+<% if @_murder -%>
+  * You are a murderer and you will kill <%= @_murder %>.
+<% end -%>
+<% if @_poison -%>
+  * You will poison <%= @_poison %>.
+<% end -%>
 <% @super_secrets.each do |secret| -%>
   * <%= secret %>
 <% end -%>

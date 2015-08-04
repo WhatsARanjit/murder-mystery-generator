@@ -27,6 +27,7 @@ module MURDER
           @pwd      = Dir.pwd
           @config ||= "#{@pwd}/game.yaml"
           @world    = MURDER::World.new(@config)
+          @cache    = yaml('graphs/cache.yaml')
         end
 
         def call
@@ -42,6 +43,16 @@ module MURDER
 
         def request_docs
           @characters.each do |id, hash|
+            # Add sentence about you being a murderer
+            if hash['role'] == 'murderer'
+              hash['_murder'] = @world.get_name_from_id(@cache['murder'][id])
+            end
+
+            # Add sentence about you being a murderer
+            if hash['role'] == 'poisoner'
+              hash['_poison'] = @world.get_name_from_id(@cache['poison'][id])
+            end
+
             # Change link IDs to names
             ['enemies', 'friends'].each do |type|
               hash["_#{type}"] = Array.new
@@ -49,12 +60,16 @@ module MURDER
                 hash["_#{type}"] << @world.get_name_from_id(person)
               end
             end
+
+            # If you're a murder, get victim info`
             char = MURDER::Doc.new('profile.md.erb', hash)
+            
             # Create markdown files first so you can edit
             if @type == 'markdown' or @type == 'both'
               char.save_md
               puts "Created markdown for '#{@characters[id]['name']}'"
             end
+            
             # Render the PDFs from markdown
             # Gives you a chance to edit markdown
             # manually to add details and theming.

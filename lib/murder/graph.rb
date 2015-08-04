@@ -1,4 +1,5 @@
 require 'graphviz'
+require 'yaml'
 
 module MURDER
   class Graph
@@ -25,6 +26,7 @@ module MURDER
           @lines = type
         end
       end
+      create_graph_dir
     end
 
     def graph_defaults
@@ -60,15 +62,21 @@ module MURDER
         when 'murderer'
           attr[:fontname]  = 'bold'
           attr[:fontcolor] = 'white'
-          attr[:color]     = 'red'
+          attr[:color]     = '#B80000'
           attr[:style]     = 'filled'
-          attr[:fillcolor] = 'red'
+          attr[:fillcolor] = '#B80000'
         when 'victim'
           attr[:fontname]  = 'bold'
           attr[:fontcolor] = 'white'
-          attr[:color]     = 'gray'
+          attr[:color]     = '#666699'
           attr[:style]     = 'filled'
-          attr[:fillcolor] = 'gray'
+          attr[:fillcolor] = '#666699'
+        when 'poisoner'
+          attr[:fontname]  = 'bold'
+          attr[:fontcolor] = 'white'
+          attr[:color]     = '#538A1C'
+          attr[:style]     = 'filled'
+          attr[:fillcolor] = '#538A1C'
         else
         end
         node = @g.add_node(
@@ -83,14 +91,17 @@ module MURDER
       attr = { :label => type }
       case type
       when 'murder'
-        attr[:color]     = 'red'
-        attr[:fontcolor] = 'red'
+        attr[:color]     = '#B80000'
+        attr[:fontcolor] = '#B80000'
       when 'friends'
-        attr[:color]     = 'blue'
-        attr[:fontcolor] = 'blue'
+        attr[:color]     = '#0000FF'
+        attr[:fontcolor] = '#0000FF'
       when 'enemies'
-        attr[:color]     = 'purple'
-        attr[:fontcolor] = 'purple'
+        attr[:color]     = '#660066'
+        attr[:fontcolor] = '#660066'
+      when 'poison'
+        attr[:color]     = '#538A1C'
+        attr[:fontcolor] = '#538A1C'
       else
       end
       attr
@@ -98,6 +109,10 @@ module MURDER
 
     def add_edges
       # Override type to 'murder' if roles are right:
+      @tracker   = {
+        'murder' => {},
+        'poison' => {},
+      }
       im_dead    = Hash.new
       ive_killed = Hash.new
       @roles['victim'].each do |id|
@@ -114,6 +129,7 @@ module MURDER
               cleanup_name(@characters[id]['name']),
               edge_attrs(_type),
             )
+            @tracker['murder'][player] = id
           end
         end
       end
@@ -126,9 +142,18 @@ module MURDER
                 ! im_dead[player] and
                 ! ive_killed[id]
               )
-              _type           = 'murder'
-              im_dead[player] = true
-              ive_killed[id]  = true
+              _type                  = 'murder'
+              im_dead[player]        = true
+              ive_killed[id]         = true
+              @tracker['murder'][id] = player
+            # If you are a poisoner who hasn't poisoned yet
+            # and you can't poison a victim or murderer
+            elsif @roles['poisoner'].include?(id) and
+              ! @tracker['poison'][id] and
+              ! @roles['victim'].include?(player)
+              ! @roles['murderer'].include?(player)
+              _type                  = 'poison'
+              @tracker['poison'][id] = player
             else
               _type = type
             end
@@ -143,8 +168,23 @@ module MURDER
       end
     end
 
+    def write_links_cache
+      File.open('graphs/cache.yaml', 'w') do|file|
+        file.write(@tracker.to_yaml)
+      end
+    end
+
+    def create_graph_dir
+      dir = "#{Dir.pwd}/graphs"
+      puts "== Graph directory #{dir}" if
+      (
+        Dir.mkdir dir unless File.exists?(dir)
+      )
+    end
+
     def output_png
-      @g.output( :png => "#{@type}.png")
+      @g.output( :png => "graphs/#{@type}.png")
+      write_links_cache
     end
   end
 end

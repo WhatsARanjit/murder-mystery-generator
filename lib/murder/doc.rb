@@ -36,6 +36,10 @@ module MURDER
       File.read(File.dirname(__FILE__) + '/../../templates/' + @template)
     end
 
+    def css_file
+      File.dirname(__FILE__) + '/../../templates/style.css'
+    end
+
     def render_md
       ERB.new(profile_template, nil, '-').result(binding)
     end
@@ -62,7 +66,7 @@ module MURDER
         render_html(markdown),
         :page_size => 'Letter'
       )
-      #pdf.stylesheets << '/Users/ranjit/Customers/PS/ranjit.css'
+      pdf.stylesheets << css_file
       pdf.to_file("pdf/#{cleanup_name(@name)}.pdf")
     end
   end
